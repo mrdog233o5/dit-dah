@@ -45,10 +45,10 @@ def letter(char, mode):
 def phrase(text, mode):
     return [letter(char, mode) for char in text]
 
-def letter2m(char):
+def chr2m(char):
     return letter(char, 0)
 
-def m2letter(char):
+def m2chr(char):
     return letter(char, 1)
 
 def str2m(char):

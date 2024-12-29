@@ -42,7 +42,7 @@ def release(e):
 def write():
     global char
     global phrase
-    keyboard.write(morse.m2letter(char))
+    keyboard.write(morse.m2chr(char))
     char = ""
     phrase = []
 
