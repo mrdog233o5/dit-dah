@@ -39,7 +39,7 @@ Z --..
 
 def letter(char, mode):
     char = char.upper()
-    return [pair[not mode] for pair in conversions if char == pair[mode]]
+    return [pair[not mode] for pair in conversions if char == pair[mode]][0]
 
 def phrase(text, mode):
     return [letter(char, mode) for char in text]
