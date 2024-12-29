@@ -44,6 +44,18 @@ def letter(char, mode):
 def phrase(text, mode):
     return [letter(char, mode) for char in text]
 
+def letter2m(char):
+    return letter(char, 0)
+
+def m2letter(char):
+    return letter(char, 1)
+
+def str2m(char):
+    return phrase(char, 0)
+
+def m2str(char):
+    return phrase(char, 1)
+
 def main():
     print(phrase("hello world", 0))
 
