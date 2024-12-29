@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 conversions = [[line[0], line[2:]] for line in r'''
   ........
 A .-
@@ -57,7 +58,12 @@ def m2str(char):
     return phrase(char, 1)
 
 def main():
-    print(phrase("hello world", 0))
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "-r":
+        print("".join(m2str(input().split())))
+    else:
+        print(" ".join(str2m(input())))
+
 
 if __name__ == "__main__":
     main()
