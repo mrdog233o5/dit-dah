@@ -2,9 +2,8 @@
 import keyboard
 import time
 import morse
-FUNCTION_KEY = "space"
 KEY = "shift"
-KEY_LENGTH = 0.07
+KEY_LENGTH = 0.1
 lastPress = 0
 lastRelease = 0
 keyUp = True
@@ -24,6 +23,7 @@ def release(e):
     global keyUp
     global lastRelease
     global KEY_LENGTH
+    global char
     lastRelease = time.time()
     timeLength = lastRelease - lastPress
     keyUp = True
@@ -34,27 +34,25 @@ def release(e):
     else:
         length = temp[0]
 
-    phrase.append(length)
-
-def pressFunc(e):
-    write()
+    if length:
+        char += "-"
+    else:
+        char += "."
 
 def write():
     global char
     global phrase
-    char = ""
-    for data in phrase:
-        if data:
-            char += "-"
-        else:
-            char += "."
     keyboard.write(morse.m2letter(char))
+    char = ""
     phrase = []
 
+def checkTime():
+    global char
+    if time.time() - lastRelease > KEY_LENGTH*4 and len(char) > 0:
+        write()
 
 keyboard.on_press_key(KEY, press)
 keyboard.on_release_key(KEY, release)
-keyboard.on_press_key(FUNCTION_KEY, pressFunc)
 
 while 1:
-    pass
+    checkTime()
