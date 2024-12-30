@@ -33,7 +33,7 @@ struct ContentView: View {
                         modeString = "m2s"
                         morseCode = morseConverter.phrase(text, mode:mode).joined(separator: " ")
                     } else {
-                        mode = 0
+                        mode = 0    
                         modeString = "s2m"
                         morseCode = morseConverter.phrase(text, mode:mode).joined(separator: "")
                     }
