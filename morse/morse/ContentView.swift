@@ -19,17 +19,23 @@ struct ContentView: View {
             
             TextField("convert", text: $text)
                 .onChange(of: text) {
-                    morseCode = morseConverter.phrase(text, mode:mode).joined(separator: " ")
+                    if (mode == 0) {
+                        morseCode = morseConverter.phrase(text, mode:mode).joined(separator: " ")
+                    } else {
+                        morseCode = morseConverter.phrase(text, mode:mode).joined(separator: "")
+                    }
                 }
                 .frame(height: 16)
             HStack {
-                Button(     modeString) {
+                Button(modeString) {
                     if (mode == 0) {
                         mode = 1
                         modeString = "m2s"
+                        morseCode = morseConverter.phrase(text, mode:mode).joined(separator: " ")
                     } else {
                         mode = 0
                         modeString = "s2m"
+                        morseCode = morseConverter.phrase(text, mode:mode).joined(separator: "")
                     }
                 }
                 Button("Copy") {
