@@ -12,6 +12,6 @@ struct morseApp: App {
     var body: some Scene {
         MenuBarExtra("·-") {
             ContentView()
-        }
+        }.menuBarExtraStyle(.window)
     }
 }
