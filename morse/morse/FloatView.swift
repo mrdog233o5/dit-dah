@@ -10,22 +10,26 @@ import SwiftUI
 struct FloatView: View {
     // State variable to hold the current text
     @State private var displayedText: String = "a"
+    @State private var spaceKey: Bool = false
 
     var body: some View {
         Text(displayedText)
             .font(.largeTitle)
             .padding()
             .onReceive(NotificationCenter.default.publisher(for: NSApplication.didUpdateNotification)) { _ in
-                // Listen for key presses
                 NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-                    if event.keyCode == 49 { // Space bar key code is 49
-                        displayedText = "b" // Change text to "b"
+                    if event.keyCode == 49 && !spaceKey {
+                        print("down")
+                        displayedText = "b"
+                        spaceKey = true
                     }
                     return event
                 }
                 NSEvent.addLocalMonitorForEvents(matching: .keyUp) { event in
-                    if event.keyCode == 49 { // Space bar key code is 49
-                        displayedText = "c" // Change text to "b"
+                    if event.keyCode == 49 && spaceKey {
+                        print("up")
+                        displayedText = "c"
+                        spaceKey = false
                     }
                     return event
                 }
