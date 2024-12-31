@@ -7,31 +7,6 @@
 
 import SwiftUI
 
-class FloatingWindowController: NSWindowController {
-    convenience init() {
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 300, height: 200),
-            styleMask: [.titled, .closable, .resizable],
-            backing: .buffered,
-            defer: false
-        )
-        
-        // Set the window level to floating
-        window.level = .floating
-        
-        // Optional: Make the window non-resizable and borderless
-        // window.styleMask.remove(.resizable)
-        // window.isOpaque = false
-        // window.backgroundColor = NSColor.clear
-        
-        self.init(window: window)
-        
-        // Set content view with SwiftUI
-        window.contentView = NSHostingView(rootView: FloatView())
-        window.makeKeyAndOrderFront(nil)
-    }
-}
-
 @main
 struct morseApp: App {
     var body: some Scene {
