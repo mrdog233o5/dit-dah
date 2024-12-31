@@ -22,7 +22,8 @@ const mb = menubar({
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
-    }
+    },
+    icon: path.resolve(__dirname, "menubarIconTemplate.png")
 });
 
 mb.on('ready', () => {
