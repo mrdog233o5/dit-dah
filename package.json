@@ -13,6 +13,7 @@
         "format": "prettier . --write"
     },
     "dependencies": {
+        "menubar": "^9.5.1",
         "prettier": "3.4.2"
     }
 }

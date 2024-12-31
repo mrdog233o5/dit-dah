@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron/main");
+const { menubar } = require('menubar');
 const path = require("node:path");
 
 function createWindow() {
@@ -11,16 +12,22 @@ function createWindow() {
     });
 
     window.loadFile("index.html");
+    
 }
 
-app.whenReady().then(() => {
-    createWindow();
+const mb = menubar({
+    browserWindow: {
+        width: 400,
+        height: 200,
+        webPreferences: {
+            preload: path.join(__dirname, "preload.js"),
+        },
+    }
+});
 
-    app.on("activate", () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow();
-        }
-    });
+mb.on('ready', () => {
+  console.log('app is ready');
+  // your app code here
 });
 
 app.on("window-all-closed", () => {
