@@ -1,6 +1,19 @@
-const { app, BrowserWindow } = require("electron/main");
+const { app, BrowserWindow } = require('electron');
 const { menubar } = require('menubar');
-const path = require("node:path");
+const path = require('node:path');
+const { GlobalKeyboardListener } = require("node-global-key-listener");
+
+const listener = new GlobalKeyboardListener();
+
+listener.addListener(function (event, down) {
+    if (event.name === "SPACE") {
+        if (event.state === "DOWN") {
+            console.log("press");
+        } else if (event.state === "UP") {
+            console.log("release");
+        }
+    }
+});
 
 function createWindow() {
     const window = new BrowserWindow({
@@ -12,7 +25,6 @@ function createWindow() {
     });
 
     window.loadFile("index.html");
-    
 }
 
 const mb = menubar({
@@ -27,8 +39,7 @@ const mb = menubar({
 });
 
 mb.on('ready', () => {
-  console.log('app is ready');
-  // your app code here
+    console.log('app is ready');
 });
 
 app.on("window-all-closed", () => {
@@ -36,3 +47,5 @@ app.on("window-all-closed", () => {
         app.quit();
     }
 });
+
+app.whenReady().then(createWindow);
