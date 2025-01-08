@@ -10,8 +10,7 @@ APP = ['main.py']  # Main application file
 DATA_FILES = ["favIcon.png"]  # List of data files to include
 OPTIONS = {
     "argv_emulation": False,
-    "packages": ["rumps", "keyboard"],  # Include necessary packages
-    "includes": ["morse"],  # Explicitly include morse.py
+    "packages": ["rumps", "pynput"],  # Include necessary packages
     "plist": {
         "CFBundleIconFile": "favIcon.png",  # Specify the app icon
     }

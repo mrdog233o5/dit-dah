@@ -1,8 +1,11 @@
+import os
 import sys
 import threading
-import keyboard
 import time
 import morse
+from pynput import keyboard
+
+controller = keyboard.Controller()
 KEY = "shift"
 KEY_LENGTH = 0.1
 lastPress = 0
@@ -18,20 +21,77 @@ if IS_MAC:
 # else:
     # from ruwps import *
 
-
-def e(_):
-    print('EEEEEEE')
-
 icon_file = 'favIcon.png'
 app = App('lovegun', icon=icon_file, template=True)
 app.menu = [
     None
 ]
 
-# here
+# morse
 
-def press(e):
-    print("nigga")
+conversions = [[line[0], line[2:]] for line in r'''
+  ........
+A .-
+B -...
+C -.-.
+D -..
+E .
+F ..-.
+G --.
+H ....
+I ..
+J ..
+K -.-
+L .-..
+M --
+N -.
+O ---
+P .--.
+Q --.-
+R .-.
+S ...
+T -
+U ..-
+V ...-
+W .--
+X -..-
+Y -.--
+Z --..
+1 .----
+2 ..---
+3 ...--
+4 ....-
+5 .....
+6 -....
+7 --...
+8 ---..
+9 ----.
+0 -----'''.splitlines()[1:]]
+
+def letter(char, mode):
+    char = char.upper()
+    try:
+        return [pair[not mode] for pair in conversions if char == pair[mode]][0]
+    except:
+        return ""
+
+def phrase(text, mode):
+    return [letter(char, mode) for char in text]
+
+def chr2m(char):
+    return letter(char, 0)
+
+def m2chr(char):
+    return letter(char, 1)
+
+def str2m(char):
+    return phrase(char, 0)
+
+def m2str(char):
+    return phrase(char, 1)
+
+def press():
+    global app
     global keyUp
     if not keyUp:
         return
@@ -39,7 +99,7 @@ def press(e):
     lastPress = time.time()
     keyUp = False
 
-def release(e):
+def release():
     global keyUp
     global lastRelease
     global KEY_LENGTH
@@ -60,25 +120,39 @@ def release(e):
         char += "."
 
 def write():
+    global controller
     global char
     global phrase
-    keyboard.write(morse.m2chr(char).lower())
+    global typeCD
+    controller.type(m2chr(char).lower())
+    os.system(f"say {morse.m2chr(char).lower()}")
     char = ""
     phrase = []
+    typeCD = 1
 
 def checkTime():
     global char
+
     if time.time() - lastRelease > KEY_LENGTH*4 and len(char) > 0:
         write()
 
-keyboard.on_press_key(KEY, press)
-keyboard.on_release_key(KEY, release)
-
-def menuLoop():
+def inputLoop():
     while 1:
         checkTime()
 
+def menuLoop():
+    with keyboard.Events() as events:
+        for event in events:
+            if type(event) == keyboard.Events.Press:
+                press()
+            else:
+                release()
+
 menuThread = threading.Thread(target=menuLoop) 
+inputThread = threading.Thread(target=inputLoop)
 
 menuThread.start()
+inputThread.start()
+
+
 app.run()
