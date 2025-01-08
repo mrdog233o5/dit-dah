@@ -22,9 +22,24 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
+        webPreferences: {nodeIntegration: true}
     });
 
     window.loadFile("index.html");
+    window.webContents.openDevTools()
+
+    setInterval(() => {
+        entry = {keyCode: "Space"}
+        console.log("test")
+        ["keyDown", "char", "keyUp"].forEach(async(type) =>
+            {
+                entry.type = type;
+                window.webContents.sendInputEvent(entry);
+        
+                // Delay
+                await new Promise(resolve => setTimeout(resolve, delay));
+            });
+    }, 1000);
 }
 
 const mb = menubar({
