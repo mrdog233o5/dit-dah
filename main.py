@@ -17,17 +17,8 @@ except ImportError:
 def e(_):
     print('EEEEEEE')
 
-if IS_MAC:
-    icon_file = 'kiss.png'
-    urlretrieve('http://upload.wikimedia.org/wikipedia/commons/thumb/c/'
-                'c4/Kiss_Logo.svg/200px-Kiss_Logo.svg.png', icon_file)
-else:
-    icon_file = 'favicon.ico'
-    urlretrieve('https://en.wikipedia.org/static/favicon/wikipedia.ico',
-                icon_file)
-
-
-app = App('lovegun', icon=icon_file)
+icon_file = 'favIcon.png'
+app = App('lovegun', icon=icon_file, template=True)
 app.menu = [
     None
 ]
